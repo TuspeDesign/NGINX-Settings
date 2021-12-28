@@ -2,8 +2,6 @@
 
 NGINX does not support the Brotli and PageSpeed modules by default, so here's a complete NGINX installation with a script to activate them.
 
-Run `mod-preinstall` before upgrading NGINX or add `mod-apt` to the apt system if using Debian / Ubuntu.
-
 ```Shell
 ln -s /etc/nginx/mod-apt /etc/apt/apt.conf.d/05nginxmodules
 ```
