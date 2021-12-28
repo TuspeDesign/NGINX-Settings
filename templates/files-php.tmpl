@@ -1,0 +1,31 @@
+index index.php;
+default_type  application/x-php;
+
+location ^~ /.well-known/acme-challenge/ {
+	allow all;
+	default_type "text/plain";
+}
+
+location ~ \.(css|svg|woff|woff2|eot|ttf|otf|jpg|jpeg|png|webp|gif|ico|avi|mp4|mp3|wav|pdf|txt|doc|docx|ppt|pptx|gz|zip|gzip|tar|rtf|xml)$ {
+	expires max;
+	add_header Pragma "public";
+	add_header Cache-Control "max-age=31536000, public, must-revalidate, proxy-revalidate";
+        log_not_found off;
+	try_files $uri /index.php?it=$uri&$args;
+}
+
+location ~ \.(html|js|json|rss)$ {
+	expires 3600s;
+	add_header Pragma "public";
+	add_header Cache-Control "max-age=3600, public, must-revalidate, proxy-revalidate";
+        log_not_found off;
+	try_files $uri /index.php?it=$uri&$args;
+}
+
+client_body_timeout 5s;
+client_header_timeout 5s;
+
+# Default PageSpeed location blocks
+# location ~ "\.pagespeed\.([a-z]\.)?[a-z]{2}\.[^.]{10}\.[^.]+" { add_header "" ""; }
+# location ~ "^/pagespeed_static/" { }
+# location ~ "^/ngx_pagespeed_beacon$" { }

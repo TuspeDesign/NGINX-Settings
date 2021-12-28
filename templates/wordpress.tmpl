@@ -1,0 +1,11 @@
+include /etc/nginx/templates/files-php.tmpl;
+
+location ~ /\. { deny  all; }
+location ~* /(?:uploads|files)/.*\.php$ { deny all; }
+location ~ ^/wp-admin/includes/ { deny all; }
+location ~ ^/wp-includes/[^/]+\.php$ { deny all; }
+location ~ ^/wp-includes/js/tinymce/langs/.+\.php { deny all; }
+location ~ ^/wp-includes/theme-compat/ { deny all; }
+location / { try_files $uri $uri/ /index.php?$args; }
+
+include /etc/nginx/templates/php.tmpl;

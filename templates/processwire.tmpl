@@ -1,0 +1,17 @@
+include /etc/nginx/templates/files-php.tmpl;
+
+location ~ /\. { deny all; }
+location = /favicon.ico { access_log off; log_not_found off; }
+location = /robots.txt { access_log off; log_not_found off; }
+location ~ ^/site(-[^/]+)?/assets/(.*\.php|backups|cache|config|install|logs|sessions) { deny  all; }
+location ~ ^/site(-[^/]+)?/install { deny  all; }
+location ~ ^/(site(-[^/]+)?|wire)/(config(-dev)?|index\.config)\.php { deny  all; }
+location ~ ^/((site(-[^/]+)?|wire)/modules|wire/core)/.*\.(inc|module|php|tpl) { deny  all; }
+location ~ ^/(site(-[^/]+)?|wire)/templates(-admin)?/.*\.(inc|html?|php|tpl) { deny  all; }
+
+location / {
+	limit_except GET HEAD POST PUT DELETE LOCK OPTIONS { deny all; }
+	try_files $uri /index.php?it=$uri&$args;
+}
+
+include /etc/nginx/templates/php.tmpl;
