@@ -1,0 +1,11 @@
+#!/bin/bash
+# Call NGINX module build scripts and pass error codes to apt hook
+
+# Get NGINX version to upgrade to
+read ngfile < <(grep '/nginx_') || exit 0
+ngver=$(echo $ngfile | sed 's/-.*//' | sed 's/.*_//')
+
+# List of build scripts to run:
+/etc/nginx/mod-pagespeed $ngver || exit $?
+/etc/nginx/mod-brotli $ngver || exit $?
+# /usr/local/sbin/mkmodsec $ngver || exit $?
